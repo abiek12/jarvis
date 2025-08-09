@@ -2,14 +2,20 @@ import speech_recognition as sr
 import webbrowser
 import pyttsx3
 
-# Initalising recognizer
+# Initalizing recognizer
 recognizer = sr.Recognizer()
+# Initializing text to speech
 ttsx = pyttsx3.init()
 
 # speak function
 def speak(text):
     ttsx.say(text)
     ttsx.runAndWait()
+    
+# Process command
+def processCommand(command):
+    print(f"command: {command}")
+    
 
 if __name__ == '__main__':
     speak("Intializing jarvis")
@@ -24,6 +30,13 @@ if __name__ == '__main__':
                 print("Google Speech Recognition thinks you said " + command)
                 if(command.lower() == "jarvis"):
                     speak("Yes, sir")
+                    # Listen for next commands
+                    with sr.Microphone() as source:
+                        print("Jarvis is active...")
+                        audio = r.listen(source)
+                        command = r.recognize_google(audio)
+                        # Process command
+                        processCommand(command)
             except sr.UnknownValueError:
                 print("Google Speech Recognition could not understand audio")
             except sr.RequestError as e:
