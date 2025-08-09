@@ -15,6 +15,9 @@ def speak(text):
 # Process command
 def processCommand(command):
     print(f"command: {command}")
+    if "open google" in command.lower():
+        speak("Opening google")
+        webbrowser.open("https://google.com")
     
 
 if __name__ == '__main__':
