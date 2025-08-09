@@ -8,11 +8,26 @@ import requests
 recognizer = sr.Recognizer()
 # Initializing text to speech
 ttsx = pyttsx3.init()
+# News api key
+newsApiKey = 'b417028aaf2f4f0c801a67cc1e18931c'
 
 # speak function
 def speak(text):
     ttsx.say(text)
     ttsx.runAndWait()
+    
+def fetchNews():
+    newsApiUrl = f"https://newsapi.org/v2/everything?country={'in'}&apiKey={newsApiKey}"
+    res = requests.get(newsApiUrl)
+    if res.status_code == 200:
+        # parse the json response
+        data = res.json()
+        
+        # extract the articles
+        articles = data.get('articles', [])
+        
+        for article in articles:
+            speak(articles['title'])
     
 # Process command
 def processCommand(command):
@@ -23,10 +38,12 @@ def processCommand(command):
     elif "open youtube" in command.lower():
         speak("Opening youtube")
         webbrowser.open("https://youtube.com")
-    elif "play" in command.startswith("play"):
+    elif "play" in command.lower().startswith("play"):
         song = command.lower().split(" ")[1]
         music_library.items[song]
-    elif "read news" in command.lower():
+    elif "news" in command.lower():
+        # query = command.lower().startswith(" ")[1]
+        fetchNews()
         
     
 
@@ -34,8 +51,8 @@ if __name__ == '__main__':
     speak("Intializing jarvis")
     while True:
         # Listen for wake word
-       r = sr.Recognizer()
-       with sr.Microphone() as source:
+        r = sr.Recognizer()
+        with sr.Microphone() as source:
             print("Say something!")
             try:
                 audio = r.listen(source, timeout=2, phrase_time_limit=1)
