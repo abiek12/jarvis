@@ -12,4 +12,23 @@ def speak(text):
     ttsx.runAndWait()
 
 if __name__ == '__main__':
-    speak("Hey how are you!")
+    speak("Intializing jarvis")
+    while True:
+        # Listen for wake word
+       r = sr.Recognizer()
+       with sr.Microphone() as source:
+            print("Say something!")
+            try:
+                audio = r.listen(source, timeout=2, phrase_time_limit=1)
+                command = r.recognize_google(audio)
+                print("Google Speech Recognition thinks you said " + command)
+                if(command.lower() == "jarvis"):
+                    speak("Yes, sir")
+            except sr.UnknownValueError:
+                print("Google Speech Recognition could not understand audio")
+            except sr.RequestError as e:
+                print("Could not request results from Google Speech Recognition service; {0}".format(e))
+            except Exception as e:
+                print("Error", e)
+        
+    
