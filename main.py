@@ -28,6 +28,9 @@ def fetchNews():
         
         for article in articles:
             speak(articles['title'])
+            
+def openApi():
+    print("Open api call")
     
 # Process command
 def processCommand(command):
@@ -44,7 +47,9 @@ def processCommand(command):
     elif "news" in command.lower():
         # query = command.lower().startswith(" ")[1]
         fetchNews()
-        
+    else: 
+        # open api
+        openApi()
     
 
 if __name__ == '__main__':
