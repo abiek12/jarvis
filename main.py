@@ -29,7 +29,7 @@ def fetchNews():
         for article in articles:
             speak(articles['title'])
             
-def openApi():
+def invokeAi(query):
     print("Open api call")
     
 # Process command
@@ -48,8 +48,8 @@ def processCommand(command):
         # query = command.lower().startswith(" ")[1]
         fetchNews()
     else: 
-        # open api
-        openApi()
+        # open api call
+        invokeAi(command.lower())
     
 
 if __name__ == '__main__':
